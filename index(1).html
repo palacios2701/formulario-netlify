@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Bancoppel</title>
+</head>
+<body style="background-color:#999;">
+    <h1>Formulario Bancoppel</h1>
+    <form id="formulario">
+        <label>Nombre: <input type="text" name="nombre" required></label><br>
+        <label>Celular: <input type="text" name="celular" required></label><br>
+        <label>Número Cliente: <input type="text" name="numero" required></label><br>
+        <label>Tel Fijo: <input type="text" name="fijo"></label><br>
+        <label>Edad: <input type="number" name="edad"></label><br>
+        <label>Antigüedad: <input type="text" name="antiguedad"></label><br>
+        <label>Zona: <input type="text" name="zona"></label><br>
+        <label>Tipificación: <input type="text" name="tipificacion"></label><br>
+        <label>Correo: <input type="email" name="correo"></label><br>
+        <label>Observaciones:<br><textarea name="observaciones" rows="4" cols="30"></textarea></label><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+    document.getElementById("formulario").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+
+        fetch("https://script.google.com/macros/s/AKfycbxUfzUTCJ9A5d3vgZBvOLKk_VBeLhoVaT5Q6LrWW5JBBXah3GuskHunhEEtJcSq1IyC1Q/exec", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert("✅ " + result);
+            e.target.reset();
+        })
+        .catch(error => {
+            alert("❌ Error al enviar: " + error);
+        });
+    });
+    </script>
+</body>
+</html>
