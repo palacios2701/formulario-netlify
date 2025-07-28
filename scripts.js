@@ -1,4 +1,4 @@
-const URL = "https://script.google.com/macros/s/AKfycbxYY64RJxeS-KKXzqcMyjGqRliZEYlt27ud00ymS20zLsUOxeK95XViVe54cIUyBOZjoQ/exec";
+const URL = "https://script.google.com/macros/s/AKfycbxYgWSRCVBnLNc9OJyNxcpH_XHAa7Rw_d1s1kNZtqYeHekiTpCTrZmbLQzZ6lH5L0PjCw/exec";
 
 function llenarFormulario(data) {
   document.getElementById("nombre").value = data["Nombre Cliente"] || "";
