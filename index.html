@@ -45,16 +45,14 @@
       resize: vertical;
     }
     .button-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      text-align: center;
+      margin-top: 20px;
     }
     button {
       background-color: #2980b9;
       color: white;
       padding: 10px 20px;
+      margin: 0 10px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -69,114 +67,66 @@
   <div class="form-container">
     <h2>Formulario BanCoppel</h2>
     <div class="button-row">
+      <input type="text" id="buscarCelular" placeholder="Celular a buscar" style="padding:8px; border-radius:5px; margin-right:10px;" />
       <button id="generar">Generar registro</button>
       <button id="guardar">Guardar registro</button>
-      <input type="text" id="buscar_cel" placeholder="Celular a buscar" />
       <button id="buscar">Buscar registro</button>
     </div>
     <form id="formulario">
       <div class="form-row">
-        <div class="form-group"><label>Nombre Cliente:</label><input type="text" id="nombre" /></div>
-        <div class="form-group"><label>Celular:</label><input type="text" id="celular" /></div>
-        <div class="form-group"><label>N. Cliente Bancoppel:</label><input type="text" id="cliente" /></div>
-        <div class="form-group"><label>Tel Fijo:</label><input type="text" id="tel_fijo" /></div>
-        <div class="form-group"><label>Edad:</label><input type="number" id="edad" /></div>
-        <div class="form-group"><label>Antigüedad del Banco:</label><input type="text" id="antiguedad" /></div>
-        <div class="form-group"><label>Zona:</label><input type="text" id="zona" /></div>
-        <div class="form-group"><label>Tipificación:</label><select id="tipificacion"><option>Seleccione</option></select></div>
-        <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="correo" /></div>
-        <div class="form-group"><label>Observaciones:</label><textarea id="observaciones" rows="3"></textarea></div>
-        <div class="form-group"><label>Fecha y Hora:</label><input type="text" id="fecha_hora" readonly /></div>
-        <div class="form-group"><label>Usuario (escribe tu nombre completo):</label><input type="text" id="usuario" /></div>
+        <div class="form-group">
+          <label>Nombre Cliente:</label>
+          <input type="text" id="nombre" />
+        </div>
+        <div class="form-group">
+          <label>Celular:</label>
+          <input type="text" id="celular" />
+        </div>
+        <div class="form-group">
+          <label>N. Cliente Bancoppel:</label>
+          <input type="text" id="cliente" />
+        </div>
+        <div class="form-group">
+          <label>Tel Fijo:</label>
+          <input type="text" id="tel_fijo" />
+        </div>
+        <div class="form-group">
+          <label>Edad:</label>
+          <input type="number" id="edad" />
+        </div>
+        <div class="form-group">
+          <label>Antigüedad del Banco:</label>
+          <input type="text" id="antiguedad" />
+        </div>
+        <div class="form-group">
+          <label>Zona:</label>
+          <input type="text" id="zona" />
+        </div>
+        <div class="form-group">
+          <label>Tipificación:</label>
+          <select id="tipificacion">
+            <option>Seleccione</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Correo Electrónico:</label>
+          <input type="email" id="correo" />
+        </div>
+        <div class="form-group">
+          <label>Observaciones:</label>
+          <textarea id="observaciones" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Fecha y Hora:</label>
+          <input type="text" id="fecha_hora" readonly />
+        </div>
+        <div class="form-group">
+          <label>Usuario (escribe tu nombre completo):</label>
+          <input type="text" id="usuario" />
+        </div>
       </div>
     </form>
   </div>
-
-  <script>
-    const URL = "https://script.google.com/macros/s/AKfycby5vwvZKULUs2ULIiGqn0higkzKfagQkHrfhASKCKjCqN28KVljQh0M45_dwZDROPsKCg/exec";
-
-    // Cargar tipificaciones al iniciar
-    fetch(`${URL}?action=tipificaciones`)
-      .then(res => res.json())
-      .then(data => {
-        const select = document.getElementById("tipificacion");
-        data.forEach(t => {
-          const option = document.createElement("option");
-          option.value = t;
-          option.textContent = t;
-          select.appendChild(option);
-        });
-      });
-
-    // Generar registro
-    document.getElementById("generar").addEventListener("click", () => {
-      fetch(`${URL}?action=generar`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("nombre").value = data.nombre || "";
-          document.getElementById("celular").value = data.celular || "";
-          document.getElementById("cliente").value = data.cliente || "";
-          document.getElementById("tel_fijo").value = data.tel_fijo || "";
-          document.getElementById("edad").value = data.edad || "";
-          document.getElementById("antiguedad").value = data.antiguedad || "";
-          document.getElementById("zona").value = data.zona || "";
-          document.getElementById("correo").value = data.correo || "";
-        });
-    });
-
-    // Guardar registro
-    document.getElementById("guardar").addEventListener("click", () => {
-      const data = {
-        action: "guardar",
-        nombre: document.getElementById("nombre").value,
-        celular: document.getElementById("celular").value,
-        cliente: document.getElementById("cliente").value,
-        tel_fijo: document.getElementById("tel_fijo").value,
-        edad: document.getElementById("edad").value,
-        antiguedad: document.getElementById("antiguedad").value,
-        zona: document.getElementById("zona").value,
-        tipificacion: document.getElementById("tipificacion").value,
-        correo: document.getElementById("correo").value,
-        observaciones: document.getElementById("observaciones").value,
-        fecha_hora: document.getElementById("fecha_hora").value,
-        usuario: document.getElementById("usuario").value
-      };
-
-      fetch(URL, {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-      .then(res => res.text())
-      .then(msg => alert(msg));
-    });
-
-    // Buscar registro
-    document.getElementById("buscar").addEventListener("click", () => {
-      const celularBuscar = document.getElementById("buscar_cel").value;
-      fetch(`${URL}?action=buscar&celular=${encodeURIComponent(celularBuscar)}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!data || !data.celular) {
-            alert("No se encontró el registro");
-            return;
-          }
-          document.getElementById("nombre").value = data.nombre;
-          document.getElementById("celular").value = data.celular;
-          document.getElementById("cliente").value = data.cliente;
-          document.getElementById("tel_fijo").value = data.tel_fijo;
-          document.getElementById("edad").value = data.edad;
-          document.getElementById("antiguedad").value = data.antiguedad;
-          document.getElementById("zona").value = data.zona;
-          document.getElementById("tipificacion").value = data.tipificacion;
-          document.getElementById("correo").value = data.correo;
-          document.getElementById("observaciones").value = data.observaciones;
-          document.getElementById("fecha_hora").value = data.fecha_hora;
-          document.getElementById("usuario").value = data.usuario;
-        });
-    });
-
-    // Asignar fecha y hora actual al cargar
-    document.getElementById("fecha_hora").value = new Date().toLocaleString("es-MX");
-  </script>
+  <script src="scripts.js"></script>
 </body>
 </html>
