@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulario BanCoppel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+  <div class="container mt-5 p-4 bg-white rounded shadow">
+    <h2 class="mb-4 text-center">Formulario BanCoppel</h2>
+    <div class="d-flex justify-content-start gap-3 mb-3">
+      <button class="btn btn-primary" onclick="generarRegistro()">Generar registro</button>
+      <button class="btn btn-primary" onclick="guardarRegistro()">Guardar registro</button>
+      <input id="buscar-celular" class="form-control w-25" placeholder="Celular para buscar" />
+      <button class="btn btn-primary" onclick="buscarRegistro()">Buscar registro</button>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Nombre Cliente:</label>
+        <input id="nombre" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label>Celular:</label>
+        <input id="celular" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label>N. Cliente Bancoppel:</label>
+        <input id="numero" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Tel Fijo:</label>
+        <input id="fijo" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label>Edad:</label>
+        <input id="edad" type="number" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label>Antigüedad del Banco:</label>
+        <input id="antiguedad" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Zona:</label>
+        <input id="zona" class="form-control" />
+      </div>
+      <div class="col-md-4">
+        <label>Tipificación:</label>
+        <select id="tipificacion" class="form-control">
+          <option value="">Seleccione</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Correo Electrónico:</label>
+        <input id="correo" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label>Observaciones:</label>
+        <textarea id="observaciones" class="form-control"></textarea>
+      </div>
+      <div class="col-md-3">
+        <label>Fecha y Hora:</label>
+        <input id="fecha" class="form-control" readonly />
+      </div>
+      <div class="col-md-3">
+        <label>Usuario:</label>
+        <input id="usuario" placeholder="Tu nombre" class="form-control" />
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
