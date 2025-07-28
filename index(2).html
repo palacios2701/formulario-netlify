@@ -1,108 +1,65 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Formulario Bancoppel</title>
 </head>
 <body>
-  <h1>Formulario de Registro</h1>
-
-  <form id="registroForm">
-    <label>Nombre: <input type="text" name="nombre" id="nombre" /></label><br />
-    <label>Celular: <input type="text" name="celular" id="celular" /></label><br />
-    <label>Número Cliente: <input type="text" name="numero" id="numero" /></label><br />
-    <label>Teléfono Fijo: <input type="text" name="fijo" id="fijo" /></label><br />
-    <label>Edad: <input type="text" name="edad" id="edad" /></label><br />
-    <label>Antigüedad: <input type="text" name="antiguedad" id="antiguedad" /></label><br />
-    <label>Zona: <input type="text" name="zona" id="zona" /></label><br />
-    <label>Correo: <input type="email" name="correo" id="correo" /></label><br />
-    <label>Tipificación:
+  <h1>Formulario Bancoppel</h1>
+  <form id="formulario">
+    <label>Nombre: <input type="text" name="nombre" /></label><br />
+    <label>Celular: <input type="text" name="celular" /></label><br />
+    <label>Tipificación: 
       <select name="tipificacion" id="tipificacion"></select>
-    </label><br />
-    <label>Observaciones: <textarea name="observaciones" id="observaciones"></textarea></label><br /><br />
-
-    <button type="button" onclick="generarRegistro()">Generar registro</button>
-    <button type="button" onclick="guardarRegistro()">Guardar registro</button>
-    <button type="button" onclick="buscarRegistro()">Buscar registro</button>
+    </label><br /><br />
+    <button type="button" onclick="generarRegistro()">Generar Registro</button>
+    <button type="button" onclick="guardarRegistro()">Guardar Registro</button>
+    <button type="button" onclick="buscarRegistro()">Buscar Registro</button>
   </form>
 
-  <p id="respuesta"></p>
-
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycby5vwvZKULUs2ULIiGqn0higkzKfagQkHrfhASKCKjCqN28KVljQh0M45_dwZDROPsKCg/exec";
-
-    window.onload = function () {
-      fetch(webAppUrl + "?action=obtenerTipificaciones")
-        .then(r => r.json())
-        .then(opciones => {
-          const select = document.getElementById("tipificacion");
-          opciones.forEach(op => {
-            const option = document.createElement("option");
-            option.value = op;
-            option.text = op;
-            select.appendChild(option);
-          });
-        });
-    };
+    const url = "https://script.google.com/macros/s/AKfycby5vwvZKULUs2ULIiGqn0higkzKfagQkHrfhASKCKjCqN28KVljQh0M45_dwZDROPsKCg/exec";
 
     function generarRegistro() {
-      fetch(webAppUrl + "?action=generarRegistro")
-        .then(r => r.json())
-        .then(d => {
-          document.getElementById("nombre").value = d["Nombre Cliente"] || "";
-          document.getElementById("celular").value = d["Celular"] || "";
-          document.getElementById("numero").value = d["N. Cliente Bancoppel"] || "";
-          document.getElementById("fijo").value = d["Tel Fijo"] || "";
-          document.getElementById("edad").value = d["Edad"] || "";
-          document.getElementById("antiguedad").value = d["Antigüedad del Banco"] || "";
-          document.getElementById("zona").value = d["Zona"] || "";
-          document.getElementById("correo").value = d["Correo Electrónico"] || "";
-        });
+      alert("Aquí deberías hacer una llamada a la hoja 'BDD'");
     }
 
     function guardarRegistro() {
-      const datos = {
-        nombre: document.getElementById("nombre").value,
-        celular: document.getElementById("celular").value,
-        numero: document.getElementById("numero").value,
-        fijo: document.getElementById("fijo").value,
-        edad: document.getElementById("edad").value,
-        antiguedad: document.getElementById("antiguedad").value,
-        zona: document.getElementById("zona").value,
-        correo: document.getElementById("correo").value,
-        tipificacion: document.getElementById("tipificacion").value,
-        observaciones: document.getElementById("observaciones").value
-      };
-
-      fetch(webAppUrl, {
+      const form = document.getElementById("formulario");
+      const datos = Object.fromEntries(new FormData(form));
+      fetch(url, {
         method: "POST",
         body: JSON.stringify(datos),
         headers: { "Content-Type": "application/json" }
-      })
-        .then(res => res.text())
-        .then(mensaje => document.getElementById("respuesta").textContent = mensaje);
+      }).then(res => res.text()).then(alert);
     }
 
     function buscarRegistro() {
-      const celular = document.getElementById("celular").value;
-      fetch(webAppUrl + "?celular=" + encodeURIComponent(celular))
-        .then(r => r.json())
-        .then(d => {
-          if (d.error) return document.getElementById("respuesta").textContent = d.error;
-
-          document.getElementById("nombre").value = d["Nombre Cliente"] || "";
-          document.getElementById("celular").value = d["Celular"] || "";
-          document.getElementById("numero").value = d["N. Cliente Bancoppel"] || "";
-          document.getElementById("fijo").value = d["Tel Fijo"] || "";
-          document.getElementById("edad").value = d["Edad"] || "";
-          document.getElementById("antiguedad").value = d["Antigüedad del Banco"] || "";
-          document.getElementById("zona").value = d["Zona"] || "";
-          document.getElementById("correo").value = d["Correo Electrónico"] || "";
-          document.getElementById("tipificacion").value = d["Tipificación"] || "";
-          document.getElementById("observaciones").value = d["Observaciones"] || "";
+      const celular = document.querySelector("[name='celular']").value;
+      fetch(`${url}?celular=${celular}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) return alert(data.error);
+          for (let campo in data) {
+            const input = document.querySelector(`[name="${campo}"]`);
+            if (input) input.value = data[campo];
+          }
         });
     }
+
+    // Llenar el combo de tipificaciones desde Google Sheets
+    fetch("https://opensheet.elk.sh/1yMB7CWaJ3TWNEudxR6o2BbaITGT3YykyW9s3rBbEvLk/TIPIFICACIONES")
+      .then(res => res.json())
+      .then(data => {
+        const select = document.getElementById("tipificacion");
+        data.forEach(row => {
+          const opt = document.createElement("option");
+          opt.value = row.tipi;
+          opt.textContent = row.tipi;
+          select.appendChild(opt);
+        });
+      });
   </script>
 </body>
 </html>
