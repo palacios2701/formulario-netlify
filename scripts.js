@@ -64,17 +64,22 @@ function buscarRegistro() {
 }
 
 function cargarTipificaciones() {
-  fetch(url + "?funcion=obtenerTipificaciones")
-    .then(res => res.json())
+  fetch(`${URL}?function=obtenerTipificaciones`)
+    .then(response => response.json())
     .then(data => {
       const select = document.getElementById("tipificacion");
-      data.forEach(t => {
+      select.innerHTML = '<option value="">Selecciona...</option>';
+      data.forEach(tipi => {
         const option = document.createElement("option");
-        option.value = t;
-        option.textContent = t;
+        option.value = tipi;
+        option.textContent = tipi;
         select.appendChild(option);
       });
+    })
+    .catch(error => {
+      console.error("Error al cargar tipificaciones:", error);
     });
 }
+
 
 window.onload = cargarTipificaciones;
