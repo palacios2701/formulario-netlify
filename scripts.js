@@ -1,5 +1,6 @@
 
-const url = "https://script.google.com/macros/s/AKfycbze6NbxPi2FGeOPajaG458qQ-MmOXoOddSuJ9uElMNhHeJMr0SoU25-vtfyqHz3mQSs9g/exec";
+const URL = "https://script.google.com/macros/s/AKfycbze6NbxPi2FGeOPajaG458qQ-MmOXoOddSuJ9uElMNhHeJMr0SoU25-vtfyqHz3mQSs9g/exec";
+
 
 function llenarFormulario(data) {
   document.getElementById("nombre").value = data.nombre || "";
