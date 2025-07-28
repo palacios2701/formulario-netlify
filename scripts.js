@@ -57,10 +57,10 @@ function guardarRegistro() {
 }
 
 function buscarRegistro() {
-  const celular = document.getElementById("busqueda").value;
-  if (!celular) return alert("Ingresa un número de celular");
+  const celular = document.getElementById("busqueda").value.trim();
+  if (!celular) return alert("Ingresa un número de celular para buscar.");
 
-  fetch(URL + "?function=buscarRegistro&Celular=" + encodeURIComponent(celular))
+  fetch(`${URL}?funcion=buscarRegistro&celular=${celular}`)
     .then(res => res.json())
     .then(data => {
       if (data.error) return alert(data.error);
@@ -68,6 +68,7 @@ function buscarRegistro() {
     })
     .catch(err => alert("Error al buscar registro: " + err));
 }
+
 
 function cargarTipificaciones() {
   fetch(URL + "?function=obtenerTipificaciones")
