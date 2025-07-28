@@ -1,139 +1,218 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Formulario BanCoppel</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 30px;
-      background: #f9f9f9;
+      background-color: #f5f7fa;
+      padding: 40px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
     h1 {
       text-align: center;
       color: #003366;
     }
-    form {
-      max-width: 1000px;
-      margin: auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 15px;
     }
-    label {
-      display: block;
-      margin-top: 10px;
+    .form-row label {
+      flex: 1 1 150px;
       font-weight: bold;
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 10px;
+    .form-row input, .form-row select, .form-row textarea {
+      flex: 3 1 300px;
+      padding: 8px;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 5px;
     }
-    .btn-group {
+    .form-row.full {
+      flex-direction: column;
+    }
+    .buttons {
       text-align: center;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
     button {
-      background-color: #0056d6;
+      background-color: #005eff;
       color: white;
-      border: none;
-      padding: 10px 20px;
+      padding: 10px 25px;
       margin: 0 10px;
-      border-radius: 6px;
-      cursor: pointer;
+      border: none;
+      border-radius: 5px;
       font-weight: bold;
+      cursor: pointer;
     }
     button:hover {
-      background-color: #003b9f;
-    }
-    .row {
-      display: flex;
-      gap: 20px;
-    }
-    .row > div {
-      flex: 1;
+      background-color: #003ccf;
     }
   </style>
 </head>
-<body>
-  <h1>Formulario BanCoppel</h1>
+<body onload="cargarTipificaciones()">
+  <div class="container">
+    <h1>Formulario BanCoppel</h1>
 
-  <form id="formulario">
-    <div class="btn-group">
-      <button type="button" onclick="generarRegistro()">Generar registro</button>
-      <button type="button" onclick="guardarRegistro()">Guardar registro</button>
-      <input type="text" id="busqueda" placeholder="Número celular" />
-      <button type="button" onclick="buscarRegistro()">Buscar registro</button>
+    <div class="form-row">
+      <input type="text" id="buscarCelular" placeholder="Número celular">
+      <button onclick="generarRegistro()">Generar registro</button>
+      <button onclick="guardarRegistro()">Guardar registro</button>
+      <button onclick="buscarRegistro()">Buscar registro</button>
     </div>
 
-    <div class="row">
-      <div>
-        <label for="nombre">Nombre Cliente:</label>
-        <input type="text" id="nombre" />
-      </div>
-      <div>
-        <label for="celular">Celular:</label>
-        <input type="text" id="celular" />
-      </div>
-      <div>
-        <label for="numero">N. Cliente Bancoppel:</label>
-        <input type="text" id="numero" />
-      </div>
+    <div class="form-row">
+      <label>Nombre Cliente:</label>
+      <input type="text" id="nombre">
+
+      <label>Celular:</label>
+      <input type="text" id="celular">
     </div>
 
-    <div class="row">
-      <div>
-        <label for="fijo">Tel Fijo:</label>
-        <input type="text" id="fijo" />
-      </div>
-      <div>
-        <label for="edad">Edad:</label>
-        <input type="text" id="edad" />
-      </div>
-      <div>
-        <label for="antiguedad">Antigüedad del Banco:</label>
-        <input type="text" id="antiguedad" />
-      </div>
+    <div class="form-row">
+      <label>Tel Fijo:</label>
+      <input type="text" id="fijo">
+
+      <label>Edad:</label>
+      <input type="text" id="edad">
     </div>
 
-    <div class="row">
-      <div>
-        <label for="zona">Zona:</label>
-        <input type="text" id="zona" />
-      </div>
-      <div>
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" />
-      </div>
-      <div>
-        <label for="tipificacion">Tipificación:</label>
-        <select id="tipificacion" required>
-          <option value="">Selecciona...</option>
-        </select>
-      </div>
+    <div class="form-row">
+      <label>N. Cliente Bancoppel:</label>
+      <input type="text" id="numero">
+
+      <label>Antigüedad del Banco:</label>
+      <input type="text" id="antiguedad">
     </div>
 
-    <label for="observaciones">Observaciones:</label>
-    <textarea id="observaciones" rows="3"></textarea>
+    <div class="form-row">
+      <label>Zona:</label>
+      <input type="text" id="zona">
 
-    <div class="row">
-      <div>
-        <label for="fechaHora">Fecha y Hora:</label>
-        <input type="text" id="fechaHora" disabled />
-      </div>
-      <div>
-        <label for="usuario">Usuario (escribe tu nombre completo):</label>
-        <input type="text" id="usuario" />
-      </div>
+      <label>Correo Electrónico:</label>
+      <input type="text" id="correo">
     </div>
-  </form>
 
-  <script src="scripts.js"></script>
+    <div class="form-row">
+      <label>Tipificación:</label>
+      <select id="tipificacion">
+        <option>Selecciona...</option>
+      </select>
+    </div>
+
+    <div class="form-row full">
+      <label>Observaciones:</label>
+      <textarea id="observaciones" rows="3"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label>Fecha y Hora:</label>
+      <input type="text" id="fechaHora" readonly>
+
+      <label>Usuario (escribe tu nombre completo):</label>
+      <input type="text" id="usuario">
+    </div>
+  </div>
+
+  <script>
+    const url = "https://script.google.com/macros/s/AKfycbze6NbxPi2FGeOPajaG458qQ-MmOXoOddSuJ9uElMNhHeJMr0SoU25-vtfyqHz3mQSs9g/exec";
+
+    function llenarFormulario(data) {
+      document.getElementById("nombre").value = data.nombre || "";
+      document.getElementById("celular").value = data.celular || "";
+      document.getElementById("numero").value = data.numero || "";
+      document.getElementById("fijo").value = data.fijo || "";
+      document.getElementById("edad").value = data.edad || "";
+      document.getElementById("antiguedad").value = data.antiguedad || "";
+      document.getElementById("zona").value = data.zona || "";
+      document.getElementById("correo").value = data.correo || "";
+      document.getElementById("tipificacion").value = data.tipificacion || "";
+      document.getElementById("observaciones").value = data.observaciones || "";
+      document.getElementById("fechaHora").value = new Date().toLocaleString();
+    }
+
+    function generarRegistro() {
+      fetch(url + "?funcion=generarRegistro")
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) return alert(data.error);
+          llenarFormulario(data);
+        })
+        .catch(err => alert("Error al generar registro: " + err));
+    }
+
+    function guardarRegistro() {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        celular: document.getElementById("celular").value,
+        numero: document.getElementById("numero").value,
+        fijo: document.getElementById("fijo").value,
+        edad: document.getElementById("edad").value,
+        antiguedad: document.getElementById("antiguedad").value,
+        zona: document.getElementById("zona").value,
+        correo: document.getElementById("correo").value,
+        tipificacion: document.getElementById("tipificacion").value,
+        observaciones: document.getElementById("observaciones").value,
+        fechaHora: document.getElementById("fechaHora").value,
+        usuario: document.getElementById("usuario").value
+      };
+
+      if (!data.celular) return alert("El campo celular es obligatorio");
+
+      fetch(url + "?funcion=guardarRegistro", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(res => res.json())
+        .then(respuesta => {
+          if (respuesta.resultado === "Registro guardado") {
+            alert("Registro guardado con éxito");
+          } else {
+            alert("Error: " + respuesta.error);
+          }
+        })
+        .catch(err => alert("Error al guardar: " + err));
+    }
+
+    function buscarRegistro() {
+      const cel = document.getElementById("buscarCelular").value.trim();
+      if (!cel) return alert("Escribe un número de celular");
+
+      fetch(url + "?funcion=buscarRegistro&celular=" + encodeURIComponent(cel))
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) return alert(data.error);
+          llenarFormulario(data);
+        })
+        .catch(err => alert("Error al buscar: " + err));
+    }
+
+    function cargarTipificaciones() {
+      fetch(url + "?funcion=obtenerTipificaciones")
+        .then(res => res.json())
+        .then(data => {
+          const select = document.getElementById("tipificacion");
+          select.innerHTML = "<option>Selecciona...</option>";
+          if (!Array.isArray(data)) throw new Error("La respuesta no es un array");
+          data.forEach(tipi => {
+            const option = document.createElement("option");
+            option.value = tipi;
+            option.textContent = tipi;
+            select.appendChild(option);
+          });
+        })
+        .catch(err => alert("Error al cargar tipificaciones: " + err));
+    }
+  </script>
 </body>
 </html>
